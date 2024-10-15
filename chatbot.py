@@ -1,8 +1,13 @@
 import streamlit as st
 import openai
+import os
 
-# Set your OpenAI API key
-openai.api_key = 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
+# Option 1: Set your OpenAI API key securely using an environment variable
+# Make sure to store your API key in the environment securely
+openai.api_key = os.getenv("OPENAI_API_KEY")
+
+# Alternatively, use Streamlit secrets if you're deploying via Streamlit Cloud
+# openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 # Streamlit UI layout settings for minimalistic chatbot design
 st.set_page_config(
