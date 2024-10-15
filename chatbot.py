@@ -2,7 +2,7 @@ import streamlit as st
 import openai
 
 # Set your OpenAI API key
-openai.api_key = 'your_openai_api_key'
+openai.api_key = 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
 
 # Streamlit UI layout settings for minimalistic chatbot design
 st.set_page_config(
