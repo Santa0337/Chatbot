@@ -4,7 +4,7 @@ import os
 
 # Option 1: Set your OpenAI API key securely using an environment variable
 # Make sure to store your API key in the environment securely
-openai.api_key = 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
+openai.api_key = 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
 
 # Alternatively, use Streamlit secrets if you're deploying via Streamlit Cloud
 # openai.api_key = st.secrets["OPENAI_API_KEY"]
