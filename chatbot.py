@@ -1,18 +1,9 @@
 import streamlit as st
-import openai  # Replace with Gemini API when available
+import openai
 
-# Set your API key for OpenAI or Gemini (if applicable)
+# Set your OpenAI API key
 openai.api_key = 'your_openai_api_key'
-# Example of new OpenAI Completion API call
-response = openai.ChatCompletion.create(
-    model="gpt-3.5-turbo",  # Using ChatGPT model, update to the available one
-    messages=[
-        {"role": "system", "content": "You are a helpful assistant."},
-        {"role": "user", "content": user_input},  # User's message
-    ]
-)
-# Get the response
-st.session_state['response'] = response['choices'][0]['message']['content']
+
 # Streamlit UI layout settings for minimalistic chatbot design
 st.set_page_config(
     page_title="Chatbot",
@@ -42,27 +33,34 @@ st.markdown("<h1 style='text-align: center;'>Minimal Chatbot</h1>", unsafe_allow
 # Input text bar
 user_input = st.text_input("Type your message here:", "")
 
-# Response placeholder
-if 'response' not in st.session_state:
-    st.session_state['response'] = ''
-
-# Process the user input and fetch AI response when the input is submitted
+# Check if user_input is empty before sending to the API
 if user_input:
+    # Response placeholder
+    if 'response' not in st.session_state:
+        st.session_state['response'] = ''
+
+    # Process the user input and fetch AI response when the input is submitted
     with st.spinner("Thinking..."):
-        # You can replace the below block with Gemini API calls once available
-        response = openai.Completion.create(
-            engine="text-davinci-003",  # OpenAI's model, replace with "Gemini" when available
-            prompt=user_input,
-            max_tokens=150
-        )
-        # Save the response in session state
-        st.session_state['response'] = response.choices[0].text.strip()
+        try:
+            response = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo",  # Updated model, replace with "Gemini" when available
+                messages=[
+                    {"role": "system", "content": "You are a helpful assistant."},
+                    {"role": "user", "content": user_input},
+                ]
+            )
+            st.session_state['response'] = response['choices'][0]['message']['content']
+
+        except Exception as e:
+            st.error(f"An error occurred: {e}")
+else:
+    st.warning("Please type a message to get a response.")
 
 # Display the AI's response
-if st.session_state['response']:
+if st.session_state.get('response'):
     st.markdown(f"**Bot:** {st.session_state['response']}")
 
-# Clearing the input bar
+# Clear button to reset the input and response
 if st.button("Clear"):
     st.session_state['response'] = ""
     st.experimental_rerun()
