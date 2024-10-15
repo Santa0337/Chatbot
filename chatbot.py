@@ -2,8 +2,17 @@ import streamlit as st
 import openai  # Replace with Gemini API when available
 
 # Set your API key for OpenAI or Gemini (if applicable)
-# openai.api_key = 'your_openai_api_key'
-
+openai.api_key = 'your_openai_api_key'
+# Example of new OpenAI Completion API call
+response = openai.ChatCompletion.create(
+    model="gpt-3.5-turbo",  # Using ChatGPT model, update to the available one
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": user_input},  # User's message
+    ]
+)
+# Get the response
+st.session_state['response'] = response['choices'][0]['message']['content']
 # Streamlit UI layout settings for minimalistic chatbot design
 st.set_page_config(
     page_title="Chatbot",
